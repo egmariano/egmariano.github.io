@@ -1,1 +1,593 @@
-<h1>Hello World </h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Docu</title>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: green;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 3px;
+            text-decoration: none;
+            font-weight: bold;
+          
+        }
+
+        li a:hover {
+            background-color: green;
+        }
+
+        h4 {
+            padding-top: 50px;
+            color: red;
+           
+        }
+
+        textarea {
+            width: 95%;
+            border-color: red;
+            padding-bottom: 0px;
+            padding-top: 0px;
+            background-color: yellow;
+        }
+
+        input[type="text"] {
+            width: 95%;
+            padding: 3px;
+            border-color: none;
+        }
+
+        input {
+            background-color: yellow;
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        button {
+            background-color: blueviolet;
+        }
+
+        .main {
+            padding: 2px;
+            margin-top: 100px;
+            height: 1500px;
+            width: 100%%;
+            /* Used in this example to enable scrolling #777  #555*/
+        }
+
+        .collapsible {
+            background-color: green;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            text-transform: uppercase;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active,
+        .collapsible:hover {
+            background-color: red;
+        }
+
+        .content {
+            padding: 0 0px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: #f1f1f1;
+        }
+        .inst {
+            font-size: 13px;
+            color: blue;
+            font-weight:bold;
+            display: none;
+        }
+        .phide {
+            display: hide;
+        }
+        
+    </style>
+</head>
+
+<body onload="start()">
+    <div class="navbar">
+        <ul>
+            <li><a href="#issue" onclick="cxverbatim()">Customer1 Verbatim |</a></li>
+            <li><a href="#actInfo">Account Info/TS Done | </a></li>  
+            <li><a href="#createCase">Create Case/Investigate |</a></li>
+            
+            
+            <li><a href="#power">WIRING/POWER |</a></li><li><a href="#probe" onclick="reso()" >Resolution |</a></li>
+            <li><a href="#rmaAdvice">RMA Advisement |</a></li>
+                         
+<li><a href="#notesSum" onclick="summarize()">Notes |</a></li>
+            <li><a href="#chkList">CheckList |</a></li>
+        </ul>
+    </div>
+    <div class="main">
+
+        
+        <h4 id="issue">Issue / Rephrase / Ask for previous case id, Emphatize <br /> Troubleshooting done.</h4>
+        <textarea rows="15" value="" id="issueDesc">
+Customer said: ___
+            
+___ Other dept and no case pop-up, get ldap __, Check if UK caller __
+
+TS done by Cx: ___
+
+Check what is the email in the Nest app. 
+Pull up the account using the phone no. (use serial number if needed), 
+Ask permission to access the thermostat information ___
+
+Cx profile: ___     
+Rephrase Issue: __  
+</textarea><p class="inst">
+If unable to get the issue within 5 minutes, elevate to T2.<br /><b>If out of scope</b>, Cx, You actually reach the Thermostat department. I will have to connect you to the
+        right department but before that, can i have your name and also a call back number in case we get
+        disconnected? Please hold while I transfer your call.
+       ><h4 id="actInfo">Input Acct Info</h4>
+        <p class="inst">
+            <b>(Pull up the account
+                using either the email address or phone number. Probe if this is the first time the customer is
+                calling about this serial number; if not make sure to pull up an account where the serial number is
+                associated with the email address / phone number, otherwise, create a new account.)</b></p>
+        First name<input type="text" id="firstname" /><br />
+        Last name<input type="text" id="lastname" /><br />
+        Call back<input type="text" id="callback" /><br />
+        Email<input type="text" id="email" /> <br />
+        Serial# (Thermostat): <input type="text" id="serialNo" onchange="lookIdentification()" /><label id="tid"
+            style="color:red"></label><br>Serial#/1st or 2nd Gen (curve edges) / battery or wired powered
+        if with green
+        led
+        light (Nest Protect): <input type="text" id="serialNoProtect"><br />
+        If applicable, May I ask you few more questions to better understand the issue?<br />
+        When did the issue start?: <input type="text" id="issueStart" /><br>Issue Frequency / How frequent?: <input
+            type="text" id="issueFreq" /><br />
+        When was the nest installed?: <input type="text" id="nestInstalled" /><br>
+        When was the last time the system was checked/maintained by a technician?: <input type="text"
+            id="nestMaintained" /><br>
+        What is on the thermostat Display right now?(will check if
+        customer is in front of the thermostat for TS purposes): <input type="text" id="dispMessg" /><br>Error
+        Message:
+        <input type="text" id="errMsg" /><br>Troubleshooting done so far : <br /><textarea rows="1"
+            id="troubleshootingDone"></textarea><br />
+ I will send a request on your Nest app to allow me check on the issue further. Please drag the notification down and hit allow.  Let me check further.  Please hold I wll be back in 3 - 5 minutes. PLese stay on the line.  <b>Ok?</b>
+        
+        <h4 id="power">GET PICTURE of WIRE CONFIG / POWER READINGS</h4>
+
+
+            <a href="https://docs.google.com/spreadsheets/d/1Ku52CSLXB2FNd2frA2XdCrjcNBbJq734zWZC85dCNw4/edit#gid=0">Power
+                Readings (Battery / VOC / VIN / LIN) HEAT PUMP /CONVENTIONAL, WIRING CONFIG</a>
+            Open the link in the new window. Educate the customer about the power readings <br />
+
+            <label id="tid2" style="color:red"></label><br />
+
+            <input id="wiring" type="text" value="wiring, todo: create a form for NTE, NLT wiring" /><br />
+            <table cellpadding="1" cellspacing="1" style="font-style: bold">
+                <tbody>
+                    <tr style="background-color: blue; color: white;">
+                        <td>No common Wire</td>
+                        <td>Voc</td>
+                        <td>Vin</td>
+                        <td>Lin</td>
+                    </tr>
+                    <tr style="background-color: blue; color: white;">
+                        <td>&nbsp; &nbsp;&nbsp;
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:771,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,15110456],&quot;11&quot;:4,&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;    System Running&quot;}"
+                                style="font-size: 10pt; font-family: Arial;">&nbsp; &nbsp; * System Running</span></td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16750848],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;29 - 42 V&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">29 - 42 V</span>
+                        </td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16750848],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot; 6 - 7 V&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">&nbsp;6 - 7 V</span>
+                        </td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16750848],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;20 - 40 mA&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">20 - 40 mA</span>
+                        </td>
+                    </tr>
+                    <tr style="background-color: blue; color: white;">
+                        <td>&nbsp; &nbsp; &nbsp;&nbsp;
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:771,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16750848],&quot;11&quot;:4,&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;    System not running&quot;}"
+                                style="font-size: 10pt; font-family: Arial;">&nbsp; * System not running</span></td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16750848],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;29 - 42 V&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">29 - 42 V</span>
+                        </td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16750848],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;29 - 42 &quot;}"
+                                style="font-size: 10pt; font-family: Arial;">29 - 42&nbsp;</span>
+                        </td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16750848],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;20 - 40 mA&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">20 - 40 mA</span>
+                        </td>
+                    </tr>
+                    <tr style="background-color: red; color: white;">
+                        <td>With common wire</td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16776960],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;29 - 42 V&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">29 - 42 V</span>
+                        </td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16776960],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;29 - 42 V&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">29 - 42 V</span>
+                        </td>
+                        <td>
+                            <style type="text/css">
+                                <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}
+                                -->
+                            </style>
+                            <span
+                                data-sheets-userformat="{&quot;2&quot;:515,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:[null,2,16776960],&quot;12&quot;:0}"
+                                data-sheets-value="{&quot;1&quot;:2,&quot;2&quot;:&quot;100 or 200 mA&quot;,&quot;6&quot;:1}"
+                                style="font-size: 10pt; font-family: Arial;">100 or 200 mA</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table><input id="pwrSharing" type="button" value="Power Sharing Notes" onclick="pwrSharingNotes();" />
+            <table border="1" cellpadding="1" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <td style="text-align: left;">
+                        System Type:
+                            <select id="sysType">
+                                <option value="Conventional">Conventional</option>
+                                <option value="Heat Pump">Heat Pump</option>
+                            </select>
+                        <td style="text-align: right;"><input id="WithCWire1" type="checkbox" />With Common wire<br />
+                            <input id="sysRunning1" type="checkbox" />&nbsp;System Running<br />
+                            <input id="concat1" type="button" value="Concat" onclick="concatReadings1();" /></td>
+                        <td style="text-align: right;"><input id="WithCWire2" type="checkbox" />With Common wire<br />
+                            <input id="sysRunning2" type="checkbox" />&nbsp;System Running<br />
+                            <input id="concat2" type="button" value="Concat" onclick="concatReadings2();" /></td>
+                        <td style="text-align: right;"><input id="WithCWire3" type="checkbox" />With Common wire<br />
+                            <input id="sysRunning3" type="checkbox" />&nbsp;System Running<br />
+                            <input id="concat3" type="button" value="Concat" onclick="concatReadings3();" /></td>
+                    </tr>
+                    <tr>
+                        <td>Wire Swaps</td>
+                        <td><input id="wSwap1" type="text" value="none" /></td>
+                        <td><input id="wSwap2" type="text" /></td>
+                        <td><input id="wSwap3" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Battery Level</td>
+                        <td><input id="bLvl1" type="text" /></td>
+                        <td><input id="bLvl2" type="text" /></td>
+                        <td><input id="bLvl3" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>VOC</td>
+                        <td><input id="voc1" type="text" /></td>
+                        <td><input id="voc2" type="text" /></td>
+                        <td><input id="voc3" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>VIN</td>
+                        <td><input id="vin1" type="text" /></td>
+                        <td><input id="vin2" type="text" /></td>
+                        <td><input id="vin3" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>LIN</td>
+                        <td><input id="lin1" type="text" /></td>
+                        <td><input id="lin2" type="text" /></td>
+                        <td><input id="lin3" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Display Blue/Ornge/Blk</td>
+                        <td><input id="disp1" type="text" /></td>
+                        <td><input id="disp2" type="text" /></td>
+                        <td><input id="disp3" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Compressor Noisy or not</td>
+                        <td><input id="hvac1" type="text" /></td>
+                        <td><input id="hvac2" type="text" /></td>
+                        <td><input id="hvac3" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Concat Result</td>
+                        <td><textarea id="concatR1" rows="5"></textarea></td>
+                        <td><textarea id="concatR2" rows="5"></textarea></td>
+                        <td><textarea id="concatR3" rows="5"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        <h4 id="createCase"> EMPHATIZE, CREATE CASE, CHECK PREVIOUS CALLS, SUPPORT ADMIN, PATH TO RESOLUTION</h4>
+         
+       <p>I do understand what your are calling about and that you are concerned about <u>__getting your HVAC
+                system__</u>
+            works. You can rest assured that I will do all I can to help you with that. </p>
+        <p> I have the details now to create a case and further check on the issue. Please hold. I will be back in 3 - 5
+            minutes. Ok?
+        </p>
+            Previous Calls Info, Investigation, Path to resolution:
+            <textarea rows="10" id="investigation"></textarea><br />
+       
+       
+        <div style="text-align:left">
+            <input type="checkbox" name="symcode" value="off"> Fill out Symptom Code<br>
+            <input type="checkbox" name="attchcase" value="off"> Attach Case<br />
+            
+            <input type="checkbox" name="consult" value="off"> Consult CCT/T2
+        </div>
+        <h4 id="probe">Resolution / Probing</h4>
+        <textarea rows="30" cols="50" id="probRes">Check emerging issue __, 
+</textarea>
+        <h4 id="notesSum">Notes Summary</h4>
+        <textarea readonly rows="15" id="docuSummary" value="" ></textarea>
+        
+        <h4 id="rmaAdvice">RMA Advisement</h4>
+        <p>You'll receive 2 emails, one is about the actual replacement along with the return shipping label. Just print that and attach it to the box upon returning. </p>
+        <p>The second email has all the tracking information. You will receive the replacement within [ ___ days ] and you'd have 10 days to return the defective device back to us. </p>
+        <p>IMPORTANT : Update the customer address on file</p>
+        <h4 id="dsat">Possible DSAT check</h4>
+
+        <h4 id="chkList">End of Call checklist / Possible DSAT checked</h4>
+        <input type="checkbox" name="dsat1" value="on"> Issue Resolved<br />
+        <input type="checkbox" name="dsat2" value="on"> Customer Interaction ok<br />
+        <input type="checkbox" name="dsat2" value="on"> 100 % sure CSAT<br />
+        <br />==================================================<br />
+        <input type="checkbox" id="website" value="on"> If you need helpful information and
+        troubleshooting
+        guide on your Nest devices, You can go to our website at support.nest.com <br /><br /><input type="checkbox"
+            id="emailLink" value="on">You will receive  an email regarding the case id of your call today
+        for
+        your future reference. <br /><br />
+        <input type="checkbox" name="close3" value="on"> Attached Case<br /><br />
+        <input type="checkbox" name="close4" value="on"> Update address if 
+        RMA<br />==================================================<br />
+        <input type="checkbox" id="allGood" value="on"> Was I able to answer all your questions
+        today? Anything else?<br />
+        <br /><input type="checkbox" name="survey" value="on">Finally ___, after we end our conversation, please stay on the line to answer a brief survey about your support experience today.  <u><b>Ok?</b></u> Thank you for calling Nest,   Have a nice day!, Don't say goodbye.
+        <br /><br /><input type="checkbox" name="close2" value="on">Send Email, <B>UPDATE CASE TITLE change to support@...
+        </b><br />
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    </div>
+    </div>
+    <script>
+
+        function summarize() {
+           
+            document.getElementById("docuSummary").value = document.getElementById("issueDesc").value + checkIfEmpty("\nFirst name: ", document.getElementById("firstname").value) +
+                checkIfEmpty("Last name: ", document.getElementById("lastname").value) +
+                checkIfEmpty("Callback: ", document.getElementById("callback").value) +
+                checkIfEmpty("Email: ", document.getElementById("email").value) +
+                checkIfEmpty("\nSerial no.: ", document.getElementById("serialNo").value) +
+                checkIfEmpty("Serial protect: ", document.getElementById("serialNoProtect").value) +
+                checkIfEmpty("\nIssue started: ", document.getElementById("issueStart").value) +
+                checkIfEmpty("Issue Frequency: ", document.getElementById("issueFreq").value) +
+                checkIfEmpty("\nNest installed: ", document.getElementById("nestInstalled").value) +
+                checkIfEmpty("Nest Maintained: ", document.getElementById("nestMaintained").value) +
+                checkIfEmpty("\nDisplay : ", document.getElementById("dispMessg").value) +
+                checkIfEmpty("Error : ", document.getElementById("errMsg").value) +
+                checkIfEmpty("\nTroubleshooting done by customer: \n", document.getElementById("troubleshootingDone").value) + 
+                checkIfEmpty("\nInvestigation: \n", document.getElementById("investigation").value) + 
+                checkIfEmpty("\nResolution: \n", document.getElementById("probRes").value);
+
+            ;
+
+        }
+
+
+
+        function rmaAdvisement() {
+            alert("You'll receive 2 emails, one is about the actual replacement along with the return shipping label. Just print that and attach it to the box upon returning. " + "\n\n" + "The second email has all the tracking information. You'll receive the replacement within [no of days based on shipping type] and you'd have 10 days to return the defective device back to us." + "\n\n" + "IMPORTANT : Update the customer address on file ");
+
+        }
+
+        function checkIfEmpty(xmsg, y) {
+
+            if (y == "") {
+                return "";
+            } else {
+                return "\n" + xmsg + y;
+            }
+        }
+
+
+
+        function lookIdentification() {
+            document.getElementById("tid").innerHTML = ""; var firstTwoChars = document.getElementById("serialNo").value.substr(0, 2); var firstFourChars = document.getElementById("serialNo").value.substr(0, 4); if (firstTwoChars == "") return; var ttype = "Invalid Serial no.; first two chars should be 01, 02, 09, 15"; if (firstTwoChars == "01") ttype = "1st generation Nest Learning Thermostat"; if (firstTwoChars == "02") ttype = "2nd generation Nest Learning Thermostat"; if (firstTwoChars == "09") ttype = "3rd generation Nest Learning Thermostat"; if (firstTwoChars == "15") ttype = "Nest Thermostat E";
+            if (firstFourChars.toUpperCase() == "09AA") ttype = ttype + ", " + "Steel/Silver/Original";
+            if (firstFourChars.toUpperCase() == "09AB") ttype = ttype + ", " + "Black ";
+            if (firstFourChars.toUpperCase() == "09AC") ttype = ttype + ", " + "White "; if (firstFourChars.toUpperCase() == "09AD") ttype = ttype + ", " + "Copper "; if (firstFourChars.toUpperCase() == "09AE") ttype = ttype + ", " + "Polished Steel"; if (firstFourChars.toUpperCase() == "09AF") ttype = ttype + ", " + "Mirror Black"; if (firstFourChars.toUpperCase() == "09AG") ttype = ttype + ", " + "Brass Brushed";
+
+            document.getElementById("tid").innerHTML = ttype;
+            document.getElementById("tid2").innerHTML = ttype + " wiring";
+
+            if (ttype == "Nest Thermostat E") {
+                document.getElementById("wiring").value = "Y1 ___, G ___, R __  W1 ___, C ___, */OB ___";
+            } else {
+                document.getElementById("wiring").value = "Y1 ___, Y2 ___, G ___, OB ___, RC __ W1 ___, W2/Aux ___, C ___, * ___, Rh ___";
+            }
+        }
+
+
+        function outOfScope() {
+            alert("Cx, You actually reach the Thermostat department. I will have to connect you to the right department but before that, can i have your name and also a call back number in case we get disconnected?  Please hold while I transfer your call. ");
+        }
+        
+    function cxverbatim(){
+        var dtt = new Date().toString();
+document.getElementById("issueDesc").value = document.getElementById("issueDesc").value + "\n" + dtt.substring(16,24);
+    } 
+
+    function reso(){
+        var dtt = new Date().toString();
+document.getElementById("probRes").value = document.getElementById("probRes").value + "\n" + dtt.substring(16,24);
+    }         
+        
+        function emphatize() {
+            alert("I do understand what your are calling about and that you are concerned about getting your HVAC system works. Don’t worry I will do all I can to help you with that.Let’s get started by creating a case for you. ");
+        }
+        function createCase() {
+            alert(" I have the details now. Please hold. I will be back in 3 - 5 minutes. Ok?");
+        }
+        function opening() {
+            alert("Thank you for contacting Nest support, my name ___, How can I help you today? (Pull up the account using either the email address or phone number)");
+        }
+
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+        function changeValue() {
+            document.getElementById("demo").innerHTML = Math.floor(++value / 60);
+            document.getElementById("demo2").innerHTML = ++value;
+        }
+
+        var timerInterval = null;
+        function start() {
+            stop(); // stoping the previous counting (if any)
+            value = 0;
+            timerInterval = setInterval(changeValue, 1000);
+        }
+        var stop = function () {
+            clearInterval(timerInterval);
+        }
+
+
+
+        function concatReadings1() {
+            s = "System: " + document.getElementById("sysType").value + ", " + "Wiring: " + document.getElementById("wiring").value + ", wires swap: " + document.getElementById("wSwap1").value;
+            b = "battery : " + document.getElementById("bLvl1").value;
+            voc = "voc: " + document.getElementById("voc1").value;
+            vin = "vin: " + document.getElementById("vin1").value;
+            lin = "Lin: " + document.getElementById("lin1").value;
+            disp = "what is on the display: " + document.getElementById("disp1").value;
+            hvac = document.getElementById("hvac1").value;
+
+            var concatR1 = s + ", " + b + ", " + voc + ", " + vin + ", " + lin + ", " + disp + ", " + hvac;
+            document.getElementById("concatR1").value = concatR1;
+        }
+
+        function concatReadings2() {
+
+            s = document.getElementById("wSwap2").value;
+            b = document.getElementById("bLvl2").value;
+            voc = document.getElementById("voc2").value;
+            vin = document.getElementById("vin2").value;
+            lin = document.getElementById("lin2").value;
+            disp = document.getElementById("disp2").value;
+            hvac = document.getElementById("hvac2").value;
+            var concatR2 = s + ", " + b + ", " + voc + ", " + vin + ", " + lin + ", " + disp + ", " + hvac;
+            document.getElementById("concatR2").value = concatR2;
+        }
+
+        function concatReadings3() {
+            s = document.getElementById("wSwap3").value;
+            b = document.getElementById("bLvl3").value;
+            voc = document.getElementById("voc3").value;
+            vin = document.getElementById("vin3").value;
+            lin = document.getElementById("lin3").value;
+            disp = document.getElementById("disp3").value;
+            hvac = document.getElementById("hvac3").value;
+            var concatR3 = s + ", " + b + ", " + voc + ", " + vin + ", " + lin + ", " + disp + ", " + hvac;
+            document.getElementById("concatR3").value = concatR3;
+        }
+        function pwrSharingNotes() {
+            alert("1. Article 1040, 11092 - IF LIN is not between 20 -  40 mA, this is power sharing issue and needs to elevate to T2.  Still need to do wire swap as per T2.\n" + "2.ARTICLE 11016, VOC, VIN, LIN graph if available in support Admin.  The graph is designed so you can either validate a customer’s description of the issue, or diagnose it easier based on the historical behavior of the power the NLT/NTE uses. Some behavior, such as active power sharing or overcurrent are easily identified as shown below.  Check normal readings below.\n" + "3. Article 11015: The graph data may show the VIN (blue line in Support Admin) dropping below five volts frequently, far more than an average cooling cycle. This corroborates the customer’s description of starting and stopping irregularly. You don’t need to do much more to diagnose this as an active power sharing issue.  Wire swaps aren’t necessary as long as the graph data is available, and the customer describes the issue as short cycling. ");
+        }
+
+    </script>
+</body>
+
+</html>
